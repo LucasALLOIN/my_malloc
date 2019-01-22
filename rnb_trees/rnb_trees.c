@@ -191,10 +191,10 @@ rnb_node_t *get_node(rnb_node_t *root, int number)
            return (tmp); 
     }
     if (root->right != NULL) {
-        if ((tmp = get_node(root->left, number)) != NULL)
-           return (NULL); 
+        if ((tmp = get_node(root->right, number)) != NULL)
+           return (tmp); 
     }
-    return (tmp);
+    return (NULL);
 }
 
 void rotate_right(rnb_node_t **root, int number)

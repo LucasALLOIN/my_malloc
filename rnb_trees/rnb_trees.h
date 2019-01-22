@@ -64,6 +64,7 @@ void apply_func_prefix(rnb_node_t *root, void (*func)(rnb_node_t *node));
 void default_print_step(rnb_node_t *node, int step);
 void apply_func_prefix_step(rnb_node_t *root, void (*func)(rnb_node_t *node, int step), int step);
 rnb_node_t *get_grandfather(rnb_node_t *root, int number);
+rnb_node_t *get_uncle(rnb_node_t *root, int number);
 rnb_node_t *get_father(rnb_node_t *root, int number);
 
 #endif /* !RNB_TREES_H_ */

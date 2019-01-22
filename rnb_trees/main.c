@@ -20,8 +20,14 @@ int main()
     apply_func_prefix_step(rnb, &default_print_step, 0);
     rnb_node_t *grand = get_grandfather(rnb, 3);
     rnb_node_t *father = get_father(rnb, 3);
+    rnb_node_t *uncle = get_uncle(rnb, 3);
+    rnb_node_t *node = get_node(rnb, 3);
     printf("%s\n", (grand == rnb) ? "OK" : "ERROR");
     if (father != NULL)
         printf("%d\n", father->number);
+    if (uncle != NULL)
+        printf("%d\n", uncle->number);
+    if (node != NULL)
+        printf("%d\n", node->number);
     return (0);
 }
