@@ -50,5 +50,10 @@ int main()
         micro_insert(&rnb3, 12, NULL);
         rotate_right(&rnb3, 5);
         apply_func_prefix_step(rnb3, &default_print_step, 0);
+        int z = 8;
+        rnb_node_t *matchs = match_func_prefix(rnb3, &z, (int (*)(rnb_node_t *root, void *data)) &match);
+        if (matchs != NULL)
+            printf("match = %d\n", matchs->number);
+
     return (0);
 }
