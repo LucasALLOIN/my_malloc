@@ -7,7 +7,7 @@
 
 #ifndef  _RNB_TREES_H_
 #define _RNB_TREES_H_
-#define ALIGN(x) (((((x) - 1) >> 2) << 2) + 4)
+#define ALIGN(x) (((((x)) >> 3) << 3) + 8)
 
 typedef struct __attribute__((packed)) rnb_class
 {

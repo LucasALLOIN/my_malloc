@@ -38,5 +38,17 @@ int main()
         rotate_left(&rnb2, 6);
         apply_func_prefix_step(rnb2, &default_print_step, 0);
         rotate_right(&rnb2, 6);
+        apply_func_prefix_step(rnb2, &default_print_step, 0);
+
+        rnb_node_t *rnb3 = NULL;
+        micro_insert(&rnb3, 10, NULL);
+        micro_insert(&rnb3, 5, NULL);
+        micro_insert(&rnb3, 2, NULL);
+        micro_insert(&rnb3, 8, NULL);
+        micro_insert(&rnb3, 9, NULL);
+        micro_insert(&rnb3, 6, NULL);
+        micro_insert(&rnb3, 12, NULL);
+        rotate_right(&rnb3, 5);
+        apply_func_prefix_step(rnb3, &default_print_step, 0);
     return (0);
 }

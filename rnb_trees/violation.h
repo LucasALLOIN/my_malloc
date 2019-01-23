@@ -14,7 +14,8 @@ typedef enum rnb_violation_type
     ROOT_RED,
     UNCLE_RED,
     FATHER_CHIELD_RED_STRUCT_TRIANGLE,
-    FATHER_CHIELD_RED_STRUCT_LINE
+    FATHER_CHIELD_RED_STRUCT_LINE,
+    NO_ERROR
 }rnb_violation_type_t;
 
 typedef struct rnb_violation_error
