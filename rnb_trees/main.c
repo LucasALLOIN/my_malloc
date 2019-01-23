@@ -29,5 +29,14 @@ int main()
         printf("%d\n", uncle->number);
     if (node != NULL)
         printf("%d\n", node->number);
+
+        rnb_node_t *rnb2 = NULL;
+        micro_insert(&rnb2, 4, NULL);
+        micro_insert(&rnb2, 6, NULL);
+        micro_insert(&rnb2, 8, NULL);
+        apply_func_prefix_step(rnb2, &default_print_step, 0);
+        rotate_left(&rnb2, 6);
+        apply_func_prefix_step(rnb2, &default_print_step, 0);
+        rotate_right(&rnb2, 6);
     return (0);
 }

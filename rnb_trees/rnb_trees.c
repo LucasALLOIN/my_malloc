@@ -203,6 +203,7 @@ void rotate_right(rnb_node_t **root, int number)
     rnb_node_t *father = NULL;
     rnb_node_t *uncle = NULL;
     rnb_node_t *node = NULL;
+    rnb_node_t *tmp = NULL;
 
     if (root == NULL)
         return;
@@ -210,7 +211,35 @@ void rotate_right(rnb_node_t **root, int number)
     father = get_father(*root, number);
     uncle = get_uncle(*root, number);
     node = get_node(*root, number);
-    if (grand == NULL)
+    if (father == NULL || node == NULL)
         return;
-    
+    tmp = node->right;
+    node->right = father;
+    father->left = tmp;
+    if (*root == father)
+        *root = node;
+}
+
+void rotate_left(rnb_node_t **root, int number)
+{
+    rnb_node_t *grand = NULL;
+    rnb_node_t *father = NULL;
+    rnb_node_t *uncle = NULL;
+    rnb_node_t *node = NULL;
+    rnb_node_t *tmp = NULL;
+
+    if (root == NULL)
+        return;
+    grand = get_grandfather(*root, number);
+    father = get_father(*root, number);
+    uncle = get_uncle(*root, number);
+    node = get_node(*root, number);
+    if (father == NULL || node == NULL)
+        return;
+    tmp = node->left;
+    node->left = father;
+    father->right = tmp;
+
+    if (*root == father)
+        *root = node;
 }
