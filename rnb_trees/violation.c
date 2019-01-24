@@ -54,7 +54,6 @@ rnb_violation_type_t is_violation_double_red(rnb_node_t **root, rnb_node_t *node
 
 rnb_node_t *is_violation_path(rnb_node_t **root)
 {
-    
 }
 
 rnb_violation_type_t get_violation(rnb_node_t **root, rnb_node_t *node)
@@ -62,7 +61,7 @@ rnb_violation_type_t get_violation(rnb_node_t **root, rnb_node_t *node)
 
 }
 
-int isViolation()
+void fixViolation(rnb_node_t **root, rnb_node_t *chield, rnb_violation_type_t type)
 {
 
 }

@@ -13,7 +13,7 @@ int main()
     rnb_node_t *rnb = NULL;
     int k = 43;
     int k2 = 15;
-    micro_insert(&rnb, 1, &k);
+/*    micro_insert(&rnb, 1, &k);
     micro_insert(&rnb, 2, &k2);
     micro_insert(&rnb, 3, &k);
     micro_insert(&rnb, 0, &k);
@@ -39,7 +39,7 @@ int main()
         apply_func_prefix_step(rnb2, &default_print_step, 0);
         rotate_right(&rnb2, 6);
         apply_func_prefix_step(rnb2, &default_print_step, 0);
-
+*/
         rnb_node_t *rnb3 = NULL;
         micro_insert(&rnb3, 10, NULL);
         micro_insert(&rnb3, 5, NULL);
@@ -49,11 +49,13 @@ int main()
         micro_insert(&rnb3, 6, NULL);
         micro_insert(&rnb3, 12, NULL);
         rotate_right(&rnb3, 5);
+        colorflip(rnb3);
         apply_func_prefix_step(rnb3, &default_print_step, 0);
         int z = 8;
         rnb_node_t *matchs = match_func_prefix(rnb3, &z, (int (*)(rnb_node_t *root, void *data)) &match);
         if (matchs != NULL)
             printf("match = %d\n", matchs->number);
+        
 
     return (0);
 }

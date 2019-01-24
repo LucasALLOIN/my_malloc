@@ -71,8 +71,8 @@ rnb_node_t *micro_insert_recursivity(rnb_node_t *node,
 
 rnb_node_t *micro_insert(rnb_node_t **root, int number, void *data)
 {
-    /* if (root == NULL);
-        return (NULL); */
+    /*if (root == NULL);
+        return (NULL);*/
     if ((*root) == NULL) {
         *root = create_element(number, data);
         (*root)->color = BLACK;
@@ -280,8 +280,8 @@ void colorflip(rnb_node_t *parent)
     if (parent == NULL)
         return;
     parent->color = (parent->color == RED) ? BLACK : RED;
-    if (parent->left == NULL)
+    if (parent->left != NULL)
         parent->left->color = (parent->color == RED) ? BLACK : RED;
-    if (parent->right == NULL)
+    if (parent->right != NULL)
         parent->right->color = (parent->color == RED) ? BLACK : RED;
 }
