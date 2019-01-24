@@ -5,8 +5,8 @@
 ** violation
 */
 
-#ifndef VIOLATION_H__H_
-
+#ifndef VIOLATION_H_
+#define VIOLATION_H_
 #include "rnb_trees.h"
 
 typedef enum rnb_violation_type
@@ -28,5 +28,9 @@ typedef struct rnb_violation_error
     rnb_violation_type_t _type;
 }rnb_violation_error_t;
 
+rnb_violation_type_t is_violation_root_red(rnb_node_t **root);
+rnb_violation_type_t get_violation_type_double_red(rnb_node_t **root, rnb_node_t *chield);
+rnb_violation_type_t is_violation_double_red(rnb_node_t **root, rnb_node_t *node);
+int get_number_of_black_nodes(rnb_node_t *root, int value, rnb_node_t **err);
 
 #endif /* !VIOLATION_H_ */

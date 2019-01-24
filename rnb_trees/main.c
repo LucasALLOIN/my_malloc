@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include "rnb_trees.h"
+#include "violation.h"
 
 int main()
 {
@@ -48,14 +49,24 @@ int main()
         micro_insert(&rnb3, 9, NULL);
         micro_insert(&rnb3, 6, NULL);
         micro_insert(&rnb3, 12, NULL);
-        rotate_right(&rnb3, 5);
-        colorflip(rnb3);
+        //rotate_right(&rnb3, 5);
+        //colorflip(rnb3);
         apply_func_prefix_step(rnb3, &default_print_step, 0);
         int z = 8;
+        rnb_node_t *err = NULL;
         rnb_node_t *matchs = match_func_prefix(rnb3, &z, (int (*)(rnb_node_t *root, void *data)) &match);
         if (matchs != NULL)
             printf("match = %d\n", matchs->number);
-        
-
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        get_node(rnb3, 12)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        if (err != NULL)
+            printf("err parent = %d\n", err->number);
+        get_node(rnb3, 5)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        get_node(rnb3, 9)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        if (err != NULL)
+            printf("err parent = %d\n", err->number);
     return (0);
 }
