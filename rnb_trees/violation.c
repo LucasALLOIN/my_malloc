@@ -30,7 +30,8 @@ rnb_violation_type_t get_violation_type_double_red(rnb_node_t **root, rnb_node_t
         grand = get_grandfather(*root, chield);
         father = get_father(*root, chield);
         if (grand != NULL && father != NULL) {
-            if ((grand->left == father && father->right == chield) || grand->right == father && father->left == chield)
+            if ((grand->left == father && father->right == chield) || (grand->right == father && father->left == chield))
+
                 return (FATHER_CHIELD_RED_STRUCT_TRIANGLE);
             else {
                 return (FATHER_CHIELD_RED_STRUCT_LINE); 
@@ -51,7 +52,7 @@ rnb_violation_type_t is_violation_double_red(rnb_node_t **root, rnb_node_t *node
     return (NO_ERROR);
 }
 
-rnb_violation_error_t is_violation_path(rnb_node_t **root)
+rnb_node_t *is_violation_path(rnb_node_t **root)
 {
     
 }

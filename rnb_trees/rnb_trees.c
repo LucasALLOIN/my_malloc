@@ -274,3 +274,14 @@ void rotate_left(rnb_node_t **root, int number)
     if (*root == father)
         *root = node;
 }
+
+void colorflip(rnb_node_t *parent)
+{
+    if (parent == NULL)
+        return;
+    parent->color = (parent->color == RED) ? BLACK : RED;
+    if (parent->left == NULL)
+        parent->left->color = (parent->color == RED) ? BLACK : RED;
+    if (parent->right == NULL)
+        parent->right->color = (parent->color == RED) ? BLACK : RED;
+}

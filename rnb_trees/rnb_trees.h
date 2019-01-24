@@ -69,6 +69,7 @@ rnb_node_t *get_grandfather(rnb_node_t *root, int number);
 rnb_node_t *get_uncle(rnb_node_t *root, int number);
 rnb_node_t *get_father(rnb_node_t *root, int number);
 
+void colorflip(rnb_node_t *parent);
 void rotate_right(rnb_node_t **root, int number);
 void rotate_left(rnb_node_t **root, int number);
 
