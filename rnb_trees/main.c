@@ -97,6 +97,7 @@ int main()
         //rotate_left(&rnb4, 3);
         rotate_left(&rnb4, 6);
         rotate_right(&rnb4, 6);
+
         apply_func_prefix_step(rnb4, &default_print_step, 0);
     return (0);
 }
