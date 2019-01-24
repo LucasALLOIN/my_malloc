@@ -7,13 +7,14 @@
 
 #include <unistd.h>
 #include "rnb_trees.h"
+#include "violation.h"
 
 int main()
 {
     rnb_node_t *rnb = NULL;
     int k = 43;
     int k2 = 15;
-    micro_insert(&rnb, 1, &k);
+/*    micro_insert(&rnb, 1, &k);
     micro_insert(&rnb, 2, &k2);
     micro_insert(&rnb, 3, &k);
     micro_insert(&rnb, 0, &k);
@@ -39,8 +40,8 @@ int main()
         apply_func_prefix_step(rnb2, &default_print_step, 0);
         rotate_right(&rnb2, 6);
         apply_func_prefix_step(rnb2, &default_print_step, 0);
-
-        rnb_node_t *rnb3 = NULL;
+*/
+/*       rnb_node_t *rnb3 = NULL;
         micro_insert(&rnb3, 10, NULL);
         micro_insert(&rnb3, 5, NULL);
         micro_insert(&rnb3, 2, NULL);
@@ -48,12 +49,54 @@ int main()
         micro_insert(&rnb3, 9, NULL);
         micro_insert(&rnb3, 6, NULL);
         micro_insert(&rnb3, 12, NULL);
-        rotate_right(&rnb3, 5);
+        //rotate_right(&rnb3, 5);
+        //colorflip(rnb3);
         apply_func_prefix_step(rnb3, &default_print_step, 0);
         int z = 8;
+        rnb_node_t *err = NULL;
         rnb_node_t *matchs = match_func_prefix(rnb3, &z, (int (*)(rnb_node_t *root, void *data)) &match);
         if (matchs != NULL)
             printf("match = %d\n", matchs->number);
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        get_node(rnb3, 12)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        if (err != NULL)
+            printf("err parent = %d\n", err->number);
+        get_node(rnb3, 5)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        get_node(rnb3, 9)->color = BLACK;
+        printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
+        if (err != NULL)
+            printf("err parent = %d\n", err->number);
 
+        printf("+++++++++++++++++++++++++++++++=\n");
+        apply_func_prefix_step(rnb3, &default_print_step, 0);
+        rnb_violation_type_t type = NO_ERROR;
+    
+        get_node(rnb3, 9)->color = RED;
+        get_node(rnb3, 10)->color = RED;
+        type = is_violation_root_red(&rnb3);
+        printf("%s\n", (type == ROOT_RED) ? "OK" : "ERROR");
+        get_node(rnb3, 10)->color = BLACK;
+        type = is_violation_double_red(&rnb3, get_node(rnb3, 9));
+        if (type != NO_ERROR) {
+            printf("%s\n", (type == FATHER_CHIELD_RED_STRUCT_LINE) ? "RED LINE" : "RED TRIANGLE");
+        }
+        type = is_violation_double_red(&rnb3, get_node(rnb3, 6));
+        if (type != NO_ERROR) {
+            printf("%s\n", (type == FATHER_CHIELD_RED_STRUCT_LINE) ? "RED LINE" : "RED TRIANGLE");
+        } */
+        rnb_node_t *rnb4 = NULL;
+        micro_insert(&rnb4, 3, NULL);
+        micro_insert(&rnb4, 1, NULL);
+        micro_insert(&rnb4, 5, NULL);
+        micro_insert(&rnb4, 7, NULL);
+        micro_insert(&rnb4, 6, NULL);
+        //apply_func_prefix_step(rnb4, &default_print_step, 0);
+        //rotate_right(&rnb4, 5);
+        //rotate_left(&rnb4, 3);
+        rotate_left(&rnb4, 6);
+        rotate_right(&rnb4, 6);
+        apply_func_prefix_step(rnb4, &default_print_step, 0);
     return (0);
 }
