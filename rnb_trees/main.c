@@ -41,7 +41,7 @@ int main()
         rotate_right(&rnb2, 6);
         apply_func_prefix_step(rnb2, &default_print_step, 0);
 */
-        rnb_node_t *rnb3 = NULL;
+/*       rnb_node_t *rnb3 = NULL;
         micro_insert(&rnb3, 10, NULL);
         micro_insert(&rnb3, 5, NULL);
         micro_insert(&rnb3, 2, NULL);
@@ -85,6 +85,18 @@ int main()
         type = is_violation_double_red(&rnb3, get_node(rnb3, 6));
         if (type != NO_ERROR) {
             printf("%s\n", (type == FATHER_CHIELD_RED_STRUCT_LINE) ? "RED LINE" : "RED TRIANGLE");
-        }
+        } */
+        rnb_node_t *rnb4 = NULL;
+        micro_insert(&rnb4, 3, NULL);
+        micro_insert(&rnb4, 1, NULL);
+        micro_insert(&rnb4, 5, NULL);
+        micro_insert(&rnb4, 7, NULL);
+        micro_insert(&rnb4, 6, NULL);
+        //apply_func_prefix_step(rnb4, &default_print_step, 0);
+        //rotate_right(&rnb4, 5);
+        //rotate_left(&rnb4, 3);
+        rotate_left(&rnb4, 6);
+        rotate_right(&rnb4, 6);
+        apply_func_prefix_step(rnb4, &default_print_step, 0);
     return (0);
 }

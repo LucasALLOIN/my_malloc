@@ -228,25 +228,35 @@ rnb_node_t *get_node(rnb_node_t *root, int number)
     return (NULL);
 }
 
+void fix_rotation(rnb_node_t *grand,
+         rnb_node_t *father, rnb_node_t *chield)
+{
+    if (grand != NULL) {
+        if (grand->left == father)
+            grand->left = chield;
+        if (grand->right == father)
+            grand->right = chield;
+    }
+}
+
 void rotate_right(rnb_node_t **root, int number)
 {
     rnb_node_t *grand = NULL;
     rnb_node_t *father = NULL;
-    rnb_node_t *uncle = NULL;
     rnb_node_t *node = NULL;
     rnb_node_t *tmp = NULL;
 
     if (root == NULL)
         return;
-    grand = get_grandfather(*root, number);
-    father = get_father(*root, number);
-    uncle = get_uncle(*root, number);
     node = get_node(*root, number);
+    father = get_father(*root, number);
+    grand = get_grandfather(*root, number);
     if (father == NULL || node == NULL)
         return;
-    tmp = node->right;
-    node->right = father;
-    father->left = tmp;
+    tmp = node->left;
+    node->left = father;
+    father->right = tmp;
+    fix_rotation(grand, father, node);
     if (*root == father)
         *root = node;
 }
@@ -255,22 +265,20 @@ void rotate_left(rnb_node_t **root, int number)
 {
     rnb_node_t *grand = NULL;
     rnb_node_t *father = NULL;
-    rnb_node_t *uncle = NULL;
     rnb_node_t *node = NULL;
     rnb_node_t *tmp = NULL;
 
     if (root == NULL)
         return;
-    grand = get_grandfather(*root, number);
-    father = get_father(*root, number);
-    uncle = get_uncle(*root, number);
     node = get_node(*root, number);
+    father = get_father(*root, number);
+    grand = get_grandfather(*root, number);
     if (father == NULL || node == NULL)
         return;
-    tmp = node->left;
-    node->left = father;
-    father->right = tmp;
-
+    tmp = node->right;
+    node->right = father;
+    father->left = tmp;
+    fix_rotation(grand, father, node);
     if (*root == father)
         *root = node;
 }
