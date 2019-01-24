@@ -52,8 +52,21 @@ rnb_violation_type_t is_violation_double_red(rnb_node_t **root, rnb_node_t *node
     return (NO_ERROR);
 }
 
-rnb_node_t *is_violation_path(rnb_node_t **root)
+size_t get_number_of_black_nodes(rnb_node_t *root, size_t value)
 {
+    size_t num = 0;
+    size_t num2 = 0;
+    size_t val = 0;
+    if (root == NULL)
+        return (NULL);
+    if (root->color)
+        val = 1;
+
+    if (root->left != NULL)
+        num = get_number_of_black_nodes(root->left, value + val);
+    if (root->right != NULL)
+        num2 = get_number_of_black_nodes(root->right, value + val);
+    return ((num2 == num) ? num : (size_t) -1);
 }
 
 rnb_violation_type_t get_violation(rnb_node_t **root, rnb_node_t *node)
