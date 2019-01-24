@@ -61,7 +61,7 @@ rnb_node_t *micro_insert_recursivity(rnb_node_t *node,
             return append_chield(node, chield, 'R');
         else
             return (micro_insert_recursivity(node->right, number, data));
-    } else if (node->number > number) {
+    } else {
         if (node->left == NULL)
             return append_chield(node, chield, 'L');
         else
@@ -239,8 +239,10 @@ void rotate_right(rnb_node_t **root, int number)
     if (root == NULL)
         return;
     grand = get_grandfather(*root, number);
+    (void) grand;
     father = get_father(*root, number);
     uncle = get_uncle(*root, number);
+    (void) uncle;
     node = get_node(*root, number);
     if (father == NULL || node == NULL)
         return;
@@ -262,8 +264,10 @@ void rotate_left(rnb_node_t **root, int number)
     if (root == NULL)
         return;
     grand = get_grandfather(*root, number);
+    (void) grand;
     father = get_father(*root, number);
     uncle = get_uncle(*root, number);
+    (void) uncle;
     node = get_node(*root, number);
     if (father == NULL || node == NULL)
         return;
