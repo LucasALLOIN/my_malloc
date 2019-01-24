@@ -61,7 +61,7 @@ rnb_node_t *micro_insert_recursivity(rnb_node_t *node,
             return append_chield(node, chield, 'R');
         else
             return (micro_insert_recursivity(node->right, number, data));
-    } else if (node->number > number) {
+    } else {
         if (node->left == NULL)
             return append_chield(node, chield, 'L');
         else
