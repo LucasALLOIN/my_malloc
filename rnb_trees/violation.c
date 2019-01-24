@@ -25,13 +25,11 @@ rnb_violation_type_t get_violation_type_double_red(rnb_node_t **root, rnb_node_t
     rnb_node_t *grand = NULL;
     rnb_node_t *father = NULL;
     
-    
     if (chield != NULL) {
         grand = get_grandfather(*root, chield->number);
         father = get_father(*root, chield->number);
         if (grand != NULL && father != NULL) {
             if ((grand->left == father && father->right == chield) || (grand->right == father && father->left == chield))
-
                 return (FATHER_CHIELD_RED_STRUCT_TRIANGLE);
             else {
                 return (FATHER_CHIELD_RED_STRUCT_LINE); 

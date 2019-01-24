@@ -68,5 +68,23 @@ int main()
         printf("nb black nodes = %d\n", get_number_of_black_nodes(rnb3, 0, &err));
         if (err != NULL)
             printf("err parent = %d\n", err->number);
+
+        printf("+++++++++++++++++++++++++++++++=\n");
+        apply_func_prefix_step(rnb3, &default_print_step, 0);
+        rnb_violation_type_t type = NO_ERROR;
+    
+        get_node(rnb3, 9)->color = RED;
+        get_node(rnb3, 10)->color = RED;
+        type = is_violation_root_red(&rnb3);
+        printf("%s\n", (type == ROOT_RED) ? "OK" : "ERROR");
+        get_node(rnb3, 10)->color = BLACK;
+        type = is_violation_double_red(&rnb3, get_node(rnb3, 9));
+        if (type != NO_ERROR) {
+            printf("%s\n", (type == FATHER_CHIELD_RED_STRUCT_LINE) ? "RED LINE" : "RED TRIANGLE");
+        }
+        type = is_violation_double_red(&rnb3, get_node(rnb3, 6));
+        if (type != NO_ERROR) {
+            printf("%s\n", (type == FATHER_CHIELD_RED_STRUCT_LINE) ? "RED LINE" : "RED TRIANGLE");
+        }
     return (0);
 }
