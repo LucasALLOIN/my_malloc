@@ -99,5 +99,17 @@ int main()
         rotate_right(&rnb4, 6);
 
         apply_func_prefix_step(rnb4, &default_print_step, 0);
+        rnb_violation_error_t error;
+        printf("%d\n", get_next_violation(&rnb4, &error));
+        if (error._type == NO_ERROR)
+            printf("no error\n");
+        if (error._type == CONSECUTIVE_RED) {
+            if (get_shape(&rnb4, error._chield) == LINE)
+                printf("red line\n");
+            if (get_shape(&rnb4, error._chield) == TRIANGLE)
+                printf("red triangle\n");
+        }
+        if (error._type == TWO_MUCH_BLACK_NODE)
+            printf("two much black nodes\n");
     return (0);
 }
