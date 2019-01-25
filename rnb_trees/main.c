@@ -115,5 +115,17 @@ int main()
         printf("%d\n", get_next_violation(&rnb4, &error));
         dump_violation_error(&error);
         fix_violation(&error);*/
+        printf("++++++++++++++++++++++++++++++++++++++\n");
+        rnb_node_t *rnb5 = NULL;
+        insert(&rnb5, 8, NULL);
+        insert(&rnb5, 5, NULL);
+        insert(&rnb5, 12, NULL);
+        insert(&rnb5, 19, NULL);
+        insert(&rnb5, 15, NULL);
+        insert(&rnb5, 23, NULL);
+        insert(&rnb5, 9, NULL);
+        insert(&rnb5, 13, NULL);
+        insert(&rnb5, 10, NULL);
+        apply_func_prefix_step(rnb5, &default_print_step, 0);
     return (0);
 }
