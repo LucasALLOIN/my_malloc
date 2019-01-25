@@ -87,14 +87,22 @@ int get_number_of_black_nodes(rnb_node_t *root, int value, rnb_node_t **err)
     int ret = 0;
     if (root == NULL)
         return (-1);
-    if (root->color)
+    if (root->color == BLACK)
         val = 1;
+    //printf("VALUE : %d\n", value + val);
+    dump_node(root);
     if (root->left == NULL && root->right == NULL)
         return (value + val);
     if (root->left != NULL)
         num = get_number_of_black_nodes(root->left, value + val, err);
     if (root->right != NULL)
         num2 = get_number_of_black_nodes(root->right, value + val, err);
+    if (root->right == NULL && root->left != NULL)
+        return (num);
+    if (root->left == NULL && root->right != NULL)
+        return (num2);
+    //printf("NUM : %d\n", num);
+    //printf("NUM2 : %d\n", num2);
     ret = ((num2 == num) ? num : -1);
     if (ret == -1 && num2 != -1 && num != -1) {
         *err = (num > num2) ? root->left : root->right;
@@ -170,6 +178,7 @@ void fix_consecutive_red(rnb_node_t **root, rnb_violation_error_t *error)
 {
     rnb_shape_t shape = get_shape(error->_root, error->_chield);
     rnb_node_color_t uncle_color = get_uncle_color(error->_uncle);
+    printf("%s\n", (get_uncle_color(error->_uncle) == RED) ? "RED" : "BLACK");
     if (uncle_color == BLACK) {
         if (shape == LINE && error->_father != NULL) {
             printf("FATHER : %d\n", error->_father->number);

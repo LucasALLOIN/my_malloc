@@ -102,8 +102,15 @@ int main()
         apply_func_prefix_step(rnb4, &default_print_step, 0);
         rnb_violation_error_t error;
         printf("%d\n", get_next_violation(&rnb4, &error));
+        dump_violation_error(&error);
         fix_violation(&error);
         apply_func_prefix_step(rnb4, &default_print_step, 0);
+        printf("%d\n", get_next_violation(&rnb4, &error));
         dump_violation_error(&error);
+        fix_violation(&error);
+        apply_func_prefix_step(rnb4, &default_print_step, 0);
+        printf("%d\n", get_next_violation(&rnb4, &error));
+        dump_violation_error(&error);
+        fix_violation(&error);
     return (0);
 }
