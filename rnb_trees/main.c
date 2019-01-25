@@ -6,6 +6,7 @@
 */
 
 #include <unistd.h>
+#include <stdio.h>
 #include "rnb_trees.h"
 #include "violation.h"
 
@@ -91,25 +92,18 @@ int main()
         micro_insert(&rnb4, 1, NULL);
         micro_insert(&rnb4, 5, NULL);
         micro_insert(&rnb4, 7, NULL);
-        micro_insert(&rnb4, 6, NULL);
+        //micro_insert(&rnb4, 6, NULL);
         //apply_func_prefix_step(rnb4, &default_print_step, 0);
         //rotate_right(&rnb4, 5);
         //rotate_left(&rnb4, 3);
-        rotate_left(&rnb4, 6);
-        rotate_right(&rnb4, 6);
+        //rotate(&rnb4, 6);
+        //rotate(&rnb4, 6);
 
         apply_func_prefix_step(rnb4, &default_print_step, 0);
         rnb_violation_error_t error;
         printf("%d\n", get_next_violation(&rnb4, &error));
-        if (error._type == NO_ERROR)
-            printf("no error\n");
-        if (error._type == CONSECUTIVE_RED) {
-            if (get_shape(&rnb4, error._chield) == LINE)
-                printf("red line\n");
-            if (get_shape(&rnb4, error._chield) == TRIANGLE)
-                printf("red triangle\n");
-        }
-        if (error._type == TWO_MUCH_BLACK_NODE)
-            printf("two much black nodes\n");
+        fix_violation(&error);
+        apply_func_prefix_step(rnb4, &default_print_step, 0);
+        dump_violation_error(&error);
     return (0);
 }

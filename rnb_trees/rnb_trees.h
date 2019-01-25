@@ -73,5 +73,9 @@ rnb_node_t *get_father(rnb_node_t *root, int number);
 void colorflip(rnb_node_t *parent);
 void rotate_right(rnb_node_t **root, int number);
 void rotate_left(rnb_node_t **root, int number);
+void rotate(rnb_node_t **root, int number);
 
+void dump_node(rnb_node_t *node);
+
+int asprintf(char **strp, const char *fmt, ...);
 #endif /* !RNB_TREES_H_ */

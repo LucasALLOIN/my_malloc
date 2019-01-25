@@ -294,6 +294,18 @@ void rotate_left(rnb_node_t **root, int number)
         *root = node;
 }
 
+void rotate(rnb_node_t **root, int number)
+{
+    rnb_node_t *father = get_father(*root, number);
+    rnb_node_t *chield = get_node(*root, number);
+    if (father != NULL) {
+        if (father->left == chield)
+            rotate_left(root, number);
+        else if (father->right == chield)
+            rotate_right(root, number);
+    }
+}
+
 void colorflip(rnb_node_t *parent)
 {
     if (parent == NULL)
@@ -303,4 +315,21 @@ void colorflip(rnb_node_t *parent)
         parent->left->color = (parent->color == RED) ? BLACK : RED;
     if (parent->right != NULL)
         parent->right->color = (parent->color == RED) ? BLACK : RED;
+}
+
+void dump_node(rnb_node_t *node)
+{
+    char *str = NULL;
+
+    if (node == NULL) {
+        printf("NULL\n");
+        return;
+    }
+    printf("Node : %d\n", node->number);
+    printf("Color : %s\n", (node->color == RED) ? "RED" : "BLACK");
+    asprintf(&str, "%p", node->left);
+    printf("Left : %s\n", (node->left == NULL) ? "NULL" : str);
+    str = NULL;
+    asprintf(&str, "%p", node->right);
+    printf("Right : %s\n\n", (node->right == NULL) ? "NULL" : str);
 }

@@ -6,8 +6,35 @@
 */
 
 #include <unistd.h>
+#include <stdio.h>
 #include "rnb_trees.h"
 #include "violation.h"
+
+
+void dump_violation_error(rnb_violation_error_t *error)
+{
+    if (error->_type == CONSECUTIVE_RED) {
+        printf("CONSECUTIVE_RED\n");
+        printf("SHAPE : %s\n", 
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
+        printf("chield :\n");
+        dump_node(error->_chield);
+        printf("father :\n");
+        dump_node(error->_father);
+        printf("grandfather :\n");
+        dump_node(error->_grandfather);
+        printf("uncle :\n");
+        dump_node(error->_uncle);
+    } else if (error->_type == TWO_MUCH_BLACK_NODE) {
+        printf("TWO_MUCH_BLACK_NODE\n");
+        printf("SHAPE : %s", 
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
+        printf(" :\n");
+        dump_node(error->_chield);
+    } else if (error->_type == ROOT_RED) {
+        printf("ROOT RED\n");
+    }
+}
 
 rnb_violation_type_t is_violation_root_red(rnb_node_t **root)
 {
@@ -90,6 +117,13 @@ rnb_node_t *get_double_red_violation(rnb_node_t **root_real, rnb_node_t *root)
     return (node);
 }
 
+rnb_node_color_t get_uncle_color(rnb_node_t *uncle)
+{
+    if (uncle == NULL)
+        return (BLACK);
+    return (uncle->color);
+}
+
 void preset_error(rnb_node_t **root, rnb_violation_error_t *error, rnb_node_t *chield)
 {
     if (chield != NULL) {
@@ -132,7 +166,33 @@ int get_next_violation(rnb_node_t **root, rnb_violation_error_t *error)
     return (0);
 }
 
-void fix_violation(rnb_node_t **root, rnb_violation_error_t *error)
+void fix_consecutive_red(rnb_node_t **root, rnb_violation_error_t *error)
 {
+    rnb_shape_t shape = get_shape(error->_root, error->_chield);
+    rnb_node_color_t uncle_color = get_uncle_color(error->_uncle);
+    if (uncle_color == BLACK) {
+        if (shape == LINE && error->_father != NULL) {
+            printf("FATHER : %d\n", error->_father->number);
+            rotate(root, error->_father->number);
+            colorflip(error->_father);
+        }
+        if (shape == TRIANGLE && error->_chield != NULL) {
+            rotate(root, error->_chield->number);
+        }
+    } else if (uncle_color == RED) {
+        colorflip(error->_grandfather);
+    }
+}
 
+void fix_violation(rnb_violation_error_t *error)
+{
+    rnb_node_t *node = *(error->_root);
+
+    if (error->_type == NO_ERROR)
+        return;
+    if (error->_type == ROOT_RED)
+        node->color = BLACK;
+    if (error->_type == CONSECUTIVE_RED) {
+        fix_consecutive_red(error->_root, error);
+    }
 }
