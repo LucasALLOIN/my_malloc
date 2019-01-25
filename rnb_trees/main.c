@@ -93,6 +93,9 @@ int main()
         insert(&rnb4, 5, NULL);
         insert(&rnb4, 7, NULL);
         insert(&rnb4, 6, NULL);
+        insert(&rnb4, 8, NULL);
+        insert(&rnb4, 9, NULL);
+        insert(&rnb4, 10, NULL);
         //apply_func_prefix_step(rnb4, &default_print_step, 0);
         //rotate_right(&rnb4, 5);
         //rotate_left(&rnb4, 3);

@@ -181,7 +181,6 @@ void fix_consecutive_red(rnb_node_t **root, rnb_violation_error_t *error)
     printf("%s\n", (get_uncle_color(error->_uncle) == RED) ? "RED" : "BLACK");
     if (uncle_color == BLACK) {
         if (shape == LINE && error->_father != NULL) {
-            printf("FATHER : %d\n", error->_father->number);
             rotate(root, error->_father->number);
             colorflip(error->_father);
         }
