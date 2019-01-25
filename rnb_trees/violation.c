@@ -204,4 +204,15 @@ void fix_violation(rnb_violation_error_t *error)
     if (error->_type == CONSECUTIVE_RED) {
         fix_consecutive_red(error->_root, error);
     }
+    if (error->_type == TWO_MUCH_BLACK_NODE) {
+        fix_consecutive_red(error->_root, error);
+    }
+}
+
+void fix_all_violations(rnb_node_t **root)
+{
+    rnb_violation_error_t error;
+
+    while (get_next_violation(root, &error))
+        fix_violation(&error);
 }

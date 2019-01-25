@@ -46,7 +46,7 @@ typedef struct __attribute__((packed)) rnb_tree
 
 int right_rotate(int number);
 int left_rotate(int *number);
-int insert(int number, void *data);
+rnb_node_t *insert(rnb_node_t **root, int number, void *data);
 int removeRNB(int number);
 int modify(int number, void *data);
 rnb_node_t *get_node(rnb_node_t *root, int number);

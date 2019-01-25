@@ -48,6 +48,7 @@ rnb_shape_t get_shape(rnb_node_t **root, rnb_node_t *chield);
 
 void fix_consecutive_red(rnb_node_t **root, rnb_violation_error_t *error);
 void fix_violation(rnb_violation_error_t *error);
+void fix_all_violations(rnb_node_t **root);
 
 void dump_violation_error(rnb_violation_error_t *error);
 

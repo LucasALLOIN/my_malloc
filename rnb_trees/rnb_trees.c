@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "rnb_trees.h"
+#include "violation.h"
 
 rnb_node_t *create_element(int number, void *data)
 {
@@ -79,6 +80,13 @@ rnb_node_t *micro_insert(rnb_node_t **root, int number, void *data)
         return (*root);
     }
     return micro_insert_recursivity(*root, number, data);
+}
+
+rnb_node_t *insert(rnb_node_t **root, int number, void *data)
+{
+    rnb_node_t *tmp = micro_insert(root, number, data);
+    fix_all_violations(root);
+    return (tmp);
 }
 
 void default_print(rnb_node_t *node)
