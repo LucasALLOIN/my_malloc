@@ -197,8 +197,9 @@ rnb_node_t *get_father(rnb_node_t *root, int number)
         chield = (root->number <= number) ? get_chield_node(root, 'R') : get_chield_node(root, 'L');
     }
     if (chield != NULL) {
-        if (chield->number == number)
+        if (chield->number == number) {
             return (root);
+        }
         else
             return (get_father(chield, number));
     }
@@ -340,4 +341,91 @@ void dump_node(rnb_node_t *node)
     str = NULL;
     asprintf(&str, "%p", node->right);
     printf("Right : %s\n\n", (node->right == NULL) ? "NULL" : str);
+}
+
+rnb_node_t *get_max(rnb_node_t *root)
+{
+    if (root == NULL)
+        return (NULL);
+    if (root->right == NULL)
+        return (root);
+    return (get_max(root->right));
+}
+
+rnb_node_t *get_min(rnb_node_t *root)
+{
+    if (root == NULL)
+        return (NULL);
+    if (root->left == NULL)
+        return (root);
+    return (get_min(root->left));
+}
+
+void swap(rnb_node_t *swap, rnb_node_t *node)
+{
+    swap->number = node->number;
+    swap->data = node->data;
+}
+
+rnb_node_t *micro_remove(rnb_node_t **root, int number)
+{
+    rnb_node_t *node = get_node(*root, number);
+    rnb_node_t *max = NULL;
+    rnb_node_t *min = NULL;
+    rnb_node_t *max_father = NULL;
+    rnb_node_t *min_father = NULL;
+    rnb_node_t *father = NULL;
+    rnb_node_t swap_var;
+
+    if (node != NULL) {
+        max = get_max(node->left);
+        min = get_min(node->right);
+        if (min == NULL && max == NULL && *root == node) {
+            *root = NULL;
+            return (node);
+        }
+        printf("max : %d\n", max->number);
+        if (max != NULL)
+            max_father = get_father(*root, max->number);
+        printf("%d\n", max_father->number);
+        if (min != NULL)
+            min_father = get_father(*root, min->number);
+        if (max_father != NULL) {
+            printf("YEAH!!\n");
+            printf("max : %d\n", max->number);
+            swap(&swap_var, node);
+            swap(node, max);
+            swap(max, &swap_var);
+            printf("%d\n", max_father->number);
+            if (max_father->left == max)
+                max_father->left = NULL;
+            if (max_father->right == max)
+                max_father->right = NULL;
+            return (max);
+        }
+        else if (min_father != NULL)
+        {
+            swap(&swap_var, node);
+            swap(node, min);
+            swap(min, &swap_var);
+            if (min_father->left == min)
+                min_father->left = NULL;
+            if (min_father->right == min)
+                min_father->right = NULL;
+            return (min);
+        }
+        else
+        {
+            father = get_father(*root, number);
+            if (father != NULL) {
+                if (father->right == node) {
+                    father->right = NULL;
+                } else if (father->left == node) {
+                    father->left = NULL;
+                }
+            }
+            return (node);
+        }
+    }
+    return (NULL);
 }

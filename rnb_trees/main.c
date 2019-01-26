@@ -119,13 +119,31 @@ int main()
         rnb_node_t *rnb5 = NULL;
         insert(&rnb5, 8, NULL);
         insert(&rnb5, 5, NULL);
-        insert(&rnb5, 12, NULL);
         insert(&rnb5, 19, NULL);
-        insert(&rnb5, 15, NULL);
+        insert(&rnb5, 12, NULL);
         insert(&rnb5, 23, NULL);
         insert(&rnb5, 9, NULL);
         insert(&rnb5, 13, NULL);
+        insert(&rnb5, 15, NULL);
         insert(&rnb5, 10, NULL);
+        micro_remove(&rnb5, 19);
+        micro_remove(&rnb5, 8);
+        micro_remove(&rnb5, 12);
+
+        //micro_remove(&rnb5, 20);
         apply_func_prefix_step(rnb5, &default_print_step, 0);
+
+        printf("++++++++++++++++++++++++++++++++++++++\n");
+        /*rnb_node_t *rnb6 = NULL;
+        int i = 0;
+
+        while (i < 100) {
+            insert(&rnb6, i, NULL);
+            i++;
+        }
+        rnb_node_t *err = NULL;
+        apply_func_prefix_step(rnb6, &default_print_step, 0);
+        printf("%d\n", get_number_of_black_nodes(rnb6, 0, &err));*/
+
     return (0);
 }
