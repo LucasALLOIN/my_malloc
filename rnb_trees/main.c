@@ -130,6 +130,9 @@ int main()
         rnb_remove(&rnb5, 8);
         //rnb_remove(&rnb5, 12);
         rnb_remove(&rnb5, 5);
+        //micro_remove(&rnb5, 5);
+        //rotate(&rnb5, 19);
+        //rotate(&rnb5, 13);
         /*rnb_remove(&rnb5, 9);
         rnb_remove(&rnb5, 23);
         rnb_remove(&rnb5, 10);

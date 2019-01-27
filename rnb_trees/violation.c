@@ -205,6 +205,7 @@ void fix_violation(rnb_violation_error_t *error)
     if (error->_type == TWO_MUCH_BLACK_NODE) {
         if (error->_chield != NULL)
             rotate(error->_root, error->_chield->number);
+        printf("ERROR::_chield : %d\n", error->_chield->number);
         colorflip(error->_chield);
     }
 }
