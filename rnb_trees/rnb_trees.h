@@ -47,7 +47,6 @@ typedef struct __attribute__((packed)) rnb_tree
 int right_rotate(int number);
 int left_rotate(int *number);
 rnb_node_t *insert(rnb_node_t **root, int number, void *data);
-int removeRNB(int number);
 int modify(int number, void *data);
 rnb_node_t *get_node(rnb_node_t *root, int number);
 
@@ -81,5 +80,6 @@ rnb_node_t *micro_remove(rnb_node_t **root, int number);
 rnb_node_t *get_max(rnb_node_t *root);
 rnb_node_t *get_min(rnb_node_t *root);
 void swap(rnb_node_t *swap, rnb_node_t *node);
+rnb_node_t *rnb_remove(rnb_node_t **root, int number);
 int asprintf(char **strp, const char *fmt, ...);
 #endif /* !RNB_TREES_H_ */

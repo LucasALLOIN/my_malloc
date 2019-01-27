@@ -178,7 +178,6 @@ void fix_consecutive_red(rnb_node_t **root, rnb_violation_error_t *error)
 {
     rnb_shape_t shape = get_shape(error->_root, error->_chield);
     rnb_node_color_t uncle_color = get_uncle_color(error->_uncle);
-    printf("%s\n", (get_uncle_color(error->_uncle) == RED) ? "RED" : "BLACK");
     if (uncle_color == BLACK) {
         if (shape == LINE && error->_father != NULL) {
             rotate(root, error->_father->number);
@@ -204,7 +203,9 @@ void fix_violation(rnb_violation_error_t *error)
         fix_consecutive_red(error->_root, error);
     }
     if (error->_type == TWO_MUCH_BLACK_NODE) {
-        fix_consecutive_red(error->_root, error);
+        if (error->_chield != NULL)
+            rotate(error->_root, error->_chield->number);
+        colorflip(error->_chield);
     }
 }
 

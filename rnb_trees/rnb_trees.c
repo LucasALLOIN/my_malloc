@@ -367,6 +367,11 @@ void swap(rnb_node_t *swap, rnb_node_t *node)
     swap->data = node->data;
 }
 
+void make_color(rnb_node_t *first, rnb_node_t *second)
+{
+    first->color = (second->color == BLACK && first->color == RED) ? BLACK : first->color;
+}
+
 rnb_node_t *micro_remove(rnb_node_t **root, int number)
 {
     rnb_node_t *node = get_node(*root, number);
@@ -384,19 +389,15 @@ rnb_node_t *micro_remove(rnb_node_t **root, int number)
             *root = NULL;
             return (node);
         }
-        printf("max : %d\n", max->number);
         if (max != NULL)
             max_father = get_father(*root, max->number);
-        printf("%d\n", max_father->number);
         if (min != NULL)
             min_father = get_father(*root, min->number);
+
         if (max_father != NULL) {
-            printf("YEAH!!\n");
-            printf("max : %d\n", max->number);
             swap(&swap_var, node);
             swap(node, max);
             swap(max, &swap_var);
-            printf("%d\n", max_father->number);
             if (max_father->left == max)
                 max_father->left = NULL;
             if (max_father->right == max)
@@ -428,4 +429,11 @@ rnb_node_t *micro_remove(rnb_node_t **root, int number)
         }
     }
     return (NULL);
+}
+
+rnb_node_t *rnb_remove(rnb_node_t **root, int number)
+{
+    rnb_node_t *tmp = micro_remove(root, number);
+    fix_all_violations(root);
+    return (tmp);
 }

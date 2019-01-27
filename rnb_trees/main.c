@@ -126,9 +126,15 @@ int main()
         insert(&rnb5, 13, NULL);
         insert(&rnb5, 15, NULL);
         insert(&rnb5, 10, NULL);
-        micro_remove(&rnb5, 19);
-        micro_remove(&rnb5, 8);
-        micro_remove(&rnb5, 12);
+        //rnb_remove(&rnb5, 19);
+        rnb_remove(&rnb5, 8);
+        //rnb_remove(&rnb5, 12);
+        rnb_remove(&rnb5, 5);
+        /*rnb_remove(&rnb5, 9);
+        rnb_remove(&rnb5, 23);
+        rnb_remove(&rnb5, 10);
+        rnb_remove(&rnb5, 13);
+        rnb_remove(&rnb5, 15);*/
 
         //micro_remove(&rnb5, 20);
         apply_func_prefix_step(rnb5, &default_print_step, 0);
