@@ -126,10 +126,10 @@ int main()
         insert(&rnb5, 13, NULL);
         insert(&rnb5, 15, NULL);
         insert(&rnb5, 10, NULL);
-        //rnb_remove(&rnb5, 19);
-        rnb_remove(&rnb5, 8);
+        rnb_remove(&rnb5, 19);
+        //rnb_remove(&rnb5, 8);
         //rnb_remove(&rnb5, 12);
-        rnb_remove(&rnb5, 5);
+        //rnb_remove(&rnb5, 5);
         //micro_remove(&rnb5, 5);
         //rotate(&rnb5, 19);
         //rotate(&rnb5, 13);
@@ -139,7 +139,9 @@ int main()
         rnb_remove(&rnb5, 13);
         rnb_remove(&rnb5, 15);*/
 
+        rnb_node_t *err = NULL;
         //micro_remove(&rnb5, 20);
+        printf("%d\n", get_number_of_black_nodes(rnb5, 0, &err));
         apply_func_prefix_step(rnb5, &default_print_step, 0);
 
         printf("++++++++++++++++++++++++++++++++++++++\n");

@@ -394,13 +394,21 @@ rnb_node_t *micro_remove(rnb_node_t **root, int number)
         if (min != NULL)
             min_father = get_father(*root, min->number);
 
-        if (max_father == node || min_father == node) {
-            printf("-> OKKK\n");
-            if (min_father == node) {
-                node->right == min->right;
-            }
-            else if (max_father == node) {
+        if ((max_father == node || min_father == node) && node != NULL) {
+            if (max_father == node) {
                 node->left = max->left;
+                swap(&swap_var, node);
+                swap(node, max);
+                swap(max, &swap_var);
+                return (max);
+            }
+            if (min_father == node) {
+                printf("OKKKK\n");
+                node->right = min->right;
+                swap(&swap_var, node);
+                swap(node, min);
+                swap(min, &swap_var);
+                return (min);
             }
         }
         else if (max_father != NULL) {
@@ -415,7 +423,6 @@ rnb_node_t *micro_remove(rnb_node_t **root, int number)
         }
         else if (min_father != NULL)
         {
-            printf("YEAH!!!\n");
             swap(&swap_var, node);
             swap(node, min);
             swap(min, &swap_var);
