@@ -12,71 +12,33 @@
 #include "rnb_trees.h"
 
 
-void my_putchar(char c)
+int match_val(rnb_node_t *node, size_t *number)
 {
-    write(1, &c, 1);
-}
-
-void my_putstr(char *str)
-{
-    write(1, str, strlen(str));
-}
-
-int my_put_nbr(int nb)
-{
-    if (nb >= 0) {
-        if (nb > 9)
-            my_put_nbr(nb / 10);
-        my_putchar((nb % 10) + '0');
-    } else {
-        my_putchar('-');
-        if (nb < -9)
-            my_put_nbr((nb / 10) * -1);
-        my_putchar(((nb % 10) * -1) + '0');
+    if (number != NULL) {
+        if (((size_t) ((malloc_t *) node->data)->bigger_space) >= (*number))
+            return (1);
     }
     return (0);
 }
 
-char hex_digit(int v) {
-    if (v >= 0 && v < 10)
-        return '0' + v;
-    else
-        return 'a' + v - 10;
-}
-
-void print_address_hex(void* p0) {
-    int i;
-    uintptr_t p = (uintptr_t) p0;
-
-    my_putchar('0');
-    my_putchar('x');
-    for (i = (sizeof(p) << 3) - 4; i >= 0; i -= 4) {
-        my_putchar(hex_digit((p >> i) & 0xf));
-    }
-}
-
-
-int match_val(rnb_node_t *node, size_t *number)
+int match_size(rnb_node_t *node, size_t *number)
 {
     if (number != NULL) {
-        if (((size_t) node->number) >= (*number))
-            return (1);
+        if (((size_t) node->number) > (*number))
+            *number = (size_t) node->number;
+        else if (((size_t) node->number) == (*number))
+            *number = *number + 1;
     }
     return (0);
 }
 
 int match_ptr(rnb_node_t *node, void *ptr)
 {
-    void *start_ptr = ((malloc_t *) node->data)->data + ((malloc_t *) node->data)->bit_table_size;
-    void *end_ptr = start_ptr + (((malloc_t *) node->data)->bit_table_size * 8 * 8);
+    void *start_ptr = ((malloc_t *) node->data)->data +
+    ((malloc_t *) node->data)->bit_table_size;
+    void *end_ptr = start_ptr +
+    (((malloc_t *) node->data)->bit_table_size * 8 * 8);
 
-    /*my_putstr("IN MATCHPTR\n");
-    my_putstr("Start ptr: ");
-    print_address_hex(start_ptr);
-    my_putchar('\n');
-    my_putstr("End ptr: ");
-    print_address_hex(end_ptr);
-    my_putchar('\n');*/
     if (ptr != NULL) {
         if (ptr >= start_ptr && ptr <= end_ptr)
             return (1);
@@ -84,25 +46,37 @@ int match_ptr(rnb_node_t *node, void *ptr)
     return (0);
 }
 
+size_t get_true_size(size_t size, rnb_node_t **head)
+{
+    size_t dup = size;
+
+    match_func_prefix(*head, &dup,
+    (int (*)(rnb_node_t *root, void *data)) &match_size);
+    return (dup);
+}
+
 int create_pages(size_t size, rnb_node_t **head)
 {
-    size_t bit_table_size_per_pages = (getpagesize() - sizeof(malloc_t) - (8 * 8)) / (8 * 8);
-    size_t nbr_pages_to_alloc = size / (bit_table_size_per_pages * 8 * 8) + 1;
-    void *value = sbrk(nbr_pages_to_alloc * getpagesize());
+    size_t bit_table = (getpagesize() - sizeof(malloc_t) - (8 * 8)) / (8 * 8);
+    size_t min_nbr_pages_to_alloc = size / (bit_table * 8 * 8) + 1;
+    size_t nbr_pages_to_al = get_true_size(min_nbr_pages_to_alloc, head);
+    void *value = sbrk(nbr_pages_to_al * getpagesize());
     malloc_t *ptr = NULL;
 
     if (value == (void *) -1)
         return (1);
     ptr = value;
-    ptr->bit_table_size = bit_table_size_per_pages * nbr_pages_to_alloc;
+    ptr->bit_table_size = bit_table * nbr_pages_to_al;
+    ptr->bigger_space = (nbr_pages_to_al * (bit_table * 8 * 8));
     ptr->data = value + sizeof(malloc_t);
-    micro_insert(head, (int) (nbr_pages_to_alloc * (bit_table_size_per_pages * 8 * 8)), value);
+    micro_insert(head, (int) nbr_pages_to_al, value);
     return (0);
 }
 
 rnb_node_t *get_allocable_page(rnb_node_t **head, size_t size)
 {
-    rnb_node_t *matchs = match_func_prefix(*head, &size, (int (*)(rnb_node_t *root, void *data)) &match);
+    rnb_node_t *matchs = match_func_prefix(*head, &size,
+    (int (*)(rnb_node_t *root, void *data)) &match_val);
 
     if (matchs == NULL) {
         if (create_pages(size, head) == 1)
@@ -214,36 +188,37 @@ void set_bit_unused(size_t where, size_t to_set, char *bit_table)
     }
 }
 
-size_t get_bigger_space(char *bit_table, size_t bit_table_size, size_t where, size_t last_bigger_space)
+size_t get_bigger_space(char *bit_table, size_t bit_table_size,
+size_t where, size_t last_bigger_space)
 {
-    size_t bigger_space = last_bigger_space;
-    size_t current_free_match = 0;
+    size_t bigger_s = last_bigger_space;
+    size_t curr_f_match = 0;
 
     for (size_t i = where; i < bit_table_size; i++) {
         if (get_good_byte(i, bit_table) == 0)
-            current_free_match++;
+            curr_f_match++;
         else {
-            bigger_space = (bigger_space < current_free_match)
-                           ? current_free_match : bigger_space;
-            current_free_match = 0;
+            bigger_s = (bigger_s < curr_f_match) ? curr_f_match : bigger_s;
+            curr_f_match = 0;
         }
     }
-    bigger_space = (bigger_space < current_free_match) ? current_free_match : bigger_space;
-    return (bigger_space * 8);
+    bigger_s = (bigger_s < curr_f_match) ? curr_f_match : bigger_s;
+    return (bigger_s * 8);
 }
 
 void set_bigger_space(rnb_node_t *to_alloc, size_t nbr_of_match, size_t where)
 {
     char *bit_table = (char *) ((malloc_t *)(to_alloc)->data)->data;
-    size_t bit_table_size = (((malloc_t *)(to_alloc)->data)->bit_table_size) * 8;
+    size_t bit_table_s = (((malloc_t *)(to_alloc)->data)->bit_table_size) * 8;
 
-    to_alloc->number = (int) get_bigger_space(bit_table, bit_table_size, where, nbr_of_match);
+    ((malloc_t *) to_alloc->data)->bigger_space = get_bigger_space(bit_table,
+    bit_table_s, where, nbr_of_match);
 }
 
-void *allocate_mem(size_t size, rnb_node_t *to_alloc)
+void *allocate_mem(size_t size, rnb_node_t *to_all)
 {
-    char *bit_table = (char *) ((malloc_t *)(to_alloc)->data)->data;
-    size_t bit_table_size = (((malloc_t *)(to_alloc)->data)->bit_table_size) * 8;
+    char *bit_table = (char *) ((malloc_t *)(to_all)->data)->data;
+    size_t bit_table_size = (((malloc_t *)(to_all)->data)->bit_table_size) * 8;
     size_t bit_to_find = (size / 8) + ((size % 8 == 0) ? 0 : 1);
     size_t current_free_match = 0;
     size_t nbr_of_match = 0;
@@ -262,7 +237,7 @@ void *allocate_mem(size_t size, rnb_node_t *to_alloc)
         }
     }
     set_bit_used(i - bit_to_find, bit_to_find, bit_table);
-    set_bigger_space(to_alloc, nbr_of_match, i);
+    set_bigger_space(to_all, nbr_of_match, i);
     *(unsigned int *) (((void *) bit_table) + (bit_table_size / 8) + ((i - bit_to_find) * 8)) = (unsigned int) bit_to_find;
     return ((void *) bit_table) + (bit_table_size / 8) + ((i - bit_to_find) * 8) + 4;
 }
@@ -281,34 +256,29 @@ void *malloc(size_t size)
 
     if (size == 0)
         return (NULL);
+    pthread_mutex_lock(&global_malloc_lock);
     size += 4;
     if (*head == 0x0) {
-        if (create_pages(size, head) == 1)
+        if (create_pages(size, head) == 1) {
+            pthread_mutex_unlock(&global_malloc_lock);
             return (NULL);
+        }
     }
     allocable_mem = get_allocable_page(head, size);
-
-    if (allocable_mem == NULL)
+    if (allocable_mem == NULL) {
+        pthread_mutex_unlock(&global_malloc_lock);
         return (NULL);
+    }
     void *tst = allocate_mem(size, allocable_mem);
-    /*print_address_hex(tst);
-    my_putchar('\n');*/
+    pthread_mutex_unlock(&global_malloc_lock);
     return (tst);
 }
 
 
 rnb_node_t *get_free_page(rnb_node_t **head, void *ptr)
 {
-    /*my_putstr("Head rnb: ");
-    print_address_hex(*head);
-    my_putchar('\n');
-    my_putstr("Ptr to free: ");
-    print_address_hex(ptr);
-    my_putchar('\n');*/
-    rnb_node_t *matchs = match_func_prefix(*head, ptr, (int (*)(rnb_node_t *root, void *data)) &match_ptr);
-    /*my_putstr("Matchs: ");
-    print_address_hex(matchs);
-    my_putchar('\n');*/
+    rnb_node_t *matchs = match_func_prefix(*head, ptr, &match_ptr);
+
     return (matchs);
 }
 
@@ -319,7 +289,6 @@ unsigned int get_alloc_size(void *ptr)
 
 void free(void *ptr)
 {
-    //write(1, "ccc", 3);
     rnb_node_t *container;
     unsigned int alloc_size = 0;
     void *true_ptr = NULL;
@@ -328,28 +297,29 @@ void free(void *ptr)
 
     if (ptr == NULL)
         return;
+    pthread_mutex_lock(&global_malloc_lock);
     container = get_free_page(get_rnb_head(), ptr);
-    //write(1, "kkk", 3);
-    if (container == NULL)
+    if (container == NULL) {
+        pthread_mutex_unlock(&global_malloc_lock);
         return;
-    //write(1, "mmm", 3);
+    }
     alloc_size = get_alloc_size(ptr);
     true_ptr = ptr - 4;
-    bit_table_end_ptr = ((malloc_t *) container->data)->data + ((malloc_t *) container->data)->bit_table_size;
+    bit_table_end_ptr = ((malloc_t *) container->data)->data
+    + ((malloc_t *) container->data)->bit_table_size;
     where = true_ptr - bit_table_end_ptr;
-    set_bit_unused(where / 8, alloc_size, ((malloc_t *) container->data)->data);
+    set_bit_unused(where / 8, alloc_size,
+    ((malloc_t *) container->data)->data);
     set_bigger_space(container, 0, 0);
-    //write(1, "jjj", 3);
+    pthread_mutex_unlock(&global_malloc_lock);
+
 }
 
 void *realloc(void *ptr, size_t size)
 {
-    //write(1, "mdr", 3);
     void *return_ptr;
     unsigned alloc_size = 0;
 
-    //my_put_nbr((int) size);
-    //write(1, "\n", 1);
     if (ptr == NULL) {
         return (malloc(size));
     }
@@ -359,17 +329,19 @@ void *realloc(void *ptr, size_t size)
         free(ptr);
         return (NULL);
     }
-
-    //write(1, "\n", 1);
-    //write(1, "lol", 3);
-
     return_ptr = malloc(size);
     if (return_ptr == NULL)
         return NULL;
-    //write(1, "ttt", 3);
     alloc_size = get_alloc_size(ptr) * 8;
-    memcpy(return_ptr, ptr, (alloc_size > (get_alloc_size(return_ptr) * 8)) ? size : alloc_size);
-    //write(1, "iii", 3);
+    pthread_mutex_lock(&global_malloc_lock);
+    memcpy(return_ptr, ptr,
+    (alloc_size > (get_alloc_size(return_ptr) * 8)) ? size : alloc_size);
+    pthread_mutex_unlock(&global_malloc_lock);
     free(ptr);
     return (return_ptr);
+}
+
+void *reallocarray(void *ptr, size_t nmemb, size_t size)
+{
+    return (realloc(ptr, nmemb * size));
 }
