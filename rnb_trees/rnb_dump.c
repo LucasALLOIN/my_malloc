@@ -61,8 +61,8 @@ void default_print_step(rnb_node_t *node, int step)
     printf("-----------------------\n");
 }
 
-void apply_func_prefix_step(rnb_node_t *root, 
-    void (*func)(rnb_node_t *node, int step), int step)
+void apply_func_prefix_step(rnb_node_t *root, void (*func)
+(rnb_node_t *node, int step), int step)
 {
     if (root == NULL)
         return;

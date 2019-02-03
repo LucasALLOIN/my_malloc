@@ -10,8 +10,8 @@
 #include "rnb_trees.h"
 #include "violation.h"
 
-rnb_node_t *micro_insert_recursivity(rnb_node_t *node, 
-                            int number, void *data)
+rnb_node_t *micro_insert_recursivity(rnb_node_t *node,
+int number, void *data)
 {
     rnb_node_t *chield = create_element(number, data);
 
