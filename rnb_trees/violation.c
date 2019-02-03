@@ -10,13 +10,12 @@
 #include "rnb_trees.h"
 #include "violation.h"
 
-
 void dump_violation_error(rnb_violation_error_t *error)
 {
     if (error->_type == CONSECUTIVE_RED) {
         printf("CONSECUTIVE_RED\n");
         printf("SHAPE : %s\n",
-        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGL");
         printf("chield :\n");
         dump_node(error->_chield);
         printf("father :\n");
@@ -28,7 +27,7 @@ void dump_violation_error(rnb_violation_error_t *error)
     } else if (error->_type == TWO_MUCH_BLACK_NODE) {
         printf("TWO_MUCH_BLACK_NODE\n");
         printf("SHAPE : %s",
-        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGL");
         printf(" :\n");
         dump_node(error->_chield);
     } else if (error->_type == ROOT_RED) {
@@ -51,23 +50,24 @@ rnb_shape_t get_shape(rnb_node_t **root, rnb_node_t *chield)
 {
     rnb_node_t *grand = NULL;
     rnb_node_t *father = NULL;
-    
+
     if (chield != NULL) {
         grand = get_grandfather(*root, chield->number);
         father = get_father(*root, chield->number);
         if (grand != NULL && father != NULL) {
-            if ((grand->left == father && father->right == chield) 
-                || (grand->right == father && father->left == chield))
+            if ((grand->left == father && father->right == chield)
+            || (grand->right == father && father->left == chield))
                 return (TRIANGLE);
             else {
-                return (LINE); 
+                return (LINE);
             }
         }
     }
     return (UNKNOWN);
 }
 
-rnb_violation_type_t is_violation_double_red(rnb_node_t **root, rnb_node_t *node)
+rnb_violation_type_t is_violation_double_red(rnb_node_t **root,
+rnb_node_t *node)
 {
     rnb_node_t *father = NULL;
     if (node == NULL)
@@ -89,7 +89,6 @@ int get_number_of_black_nodes(rnb_node_t *root, int value, rnb_node_t **err)
         return (-1);
     if (root->color == BLACK)
         val = 1;
-    //printf("VALUE : %d\n", value + val);
     if (root->left == NULL && root->right == NULL)
         return (value + val);
     if (root->left != NULL)
@@ -100,8 +99,6 @@ int get_number_of_black_nodes(rnb_node_t *root, int value, rnb_node_t **err)
         return (num);
     if (root->left == NULL && root->right != NULL)
         return (num2);
-    //printf("NUM : %d\n", num);
-    //printf("NUM2 : %d\n", num2);
     ret = ((num2 == num) ? num : -1);
     if (ret == -1 && num2 != -1 && num != -1) {
         *err = (num > num2) ? root->left : root->right;
@@ -131,7 +128,8 @@ rnb_node_color_t get_uncle_color(rnb_node_t *uncle)
     return (uncle->color);
 }
 
-void preset_error(rnb_node_t **root, rnb_violation_error_t *error, rnb_node_t *chield)
+void preset_error(rnb_node_t **root, rnb_violation_error_t *error,
+rnb_node_t *chield)
 {
     if (chield != NULL) {
         error->_root = root;

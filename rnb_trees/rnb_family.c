@@ -16,10 +16,12 @@ rnb_node_t *get_grandfather(rnb_node_t *root, int number)
     rnb_node_t *chield = NULL;
 
     if (root != NULL) {
-        father = (root->number <= number) ? get_chield_node(root, 'R') : get_chield_node(root, 'L');
+        father = (root->number <= number) ?
+        get_chield_node(root, 'R') : get_chield_node(root, 'L');
     }
     if (father != NULL) {
-        chield = (father->number <= number) ? get_chield_node(father, 'R') : get_chield_node(father, 'L');
+        chield = (father->number <= number) ?
+        get_chield_node(father, 'R') : get_chield_node(father, 'L');
     }
     if (chield != NULL) {
         if (chield->number == number)
@@ -35,7 +37,8 @@ rnb_node_t *get_father(rnb_node_t *root, int number)
     rnb_node_t *chield = NULL;
 
     if (root != NULL) {
-        chield = (root->number <= number) ? get_chield_node(root, 'R') : get_chield_node(root, 'L');
+        chield = (root->number <= number) ?
+        get_chield_node(root, 'R') : get_chield_node(root, 'L');
     }
     if (chield != NULL) {
         if (chield->number == number) {
@@ -69,11 +72,11 @@ rnb_node_t *get_node(rnb_node_t *root, int number)
         return (root);
     if (root->left != NULL) {
         if ((tmp = get_node(root->left, number)) != NULL)
-           return (tmp); 
+            return (tmp);
     }
     if (root->right != NULL) {
         if ((tmp = get_node(root->right, number)) != NULL)
-           return (tmp); 
+            return (tmp);
     }
     return (NULL);
 }

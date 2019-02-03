@@ -7,12 +7,11 @@
 
 #include "malloc.h"
 
-int match_val(rnb_node_t *node, size_t *number)
+int match_val(rnb_node_t *node, int number)
 {
-    if (number != NULL) {
-        if (((size_t) ((malloc_t *) node->data)->bigger_space) >= (*number))
-            return (1);
-    }
+    if (((size_t) ((malloc_t *) node->data)->bigger_space) >=
+    (long unsigned int) (number))
+        return (1);
     return (0);
 }
 

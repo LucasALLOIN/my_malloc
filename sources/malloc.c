@@ -31,8 +31,10 @@ int create_pages(size_t size, rnb_node_t **head)
 
 rnb_node_t *get_allocable_page(rnb_node_t **head, size_t size)
 {
-    rnb_node_t *matchs = match_func_prefix(*head, &size,
-    (int (*)(rnb_node_t *root, void *data)) &match_val);
+    size_t bit_table = (getpagesize() - sizeof(malloc_t) - (8 * 8)) / (8 * 8);
+    size_t min_nbr_pages_to_alloc = size / (bit_table * 8 * 8) + 1;
+    rnb_node_t *matchs = match_sup(*head, (int) min_nbr_pages_to_alloc,
+    (int) size, &match_val);
 
     if (matchs == NULL) {
         if (create_pages(size, head) == 1)

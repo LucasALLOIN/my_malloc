@@ -21,7 +21,7 @@ typedef struct malloc_s {
 
 pthread_mutex_t global_malloc_lock;
 
-int match_val(rnb_node_t *node, size_t *number);
+int match_val(rnb_node_t *node, int number);
 int match_size(rnb_node_t *node, size_t *number);
 int match_ptr(rnb_node_t *node, void *ptr);
 void set_bit_used(size_t where, size_t to_set, char *bit_table);

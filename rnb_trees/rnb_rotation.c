@@ -11,7 +11,7 @@
 #include "violation.h"
 
 void fix_rotation(rnb_node_t *grand,
-         rnb_node_t *father, rnb_node_t *chield)
+rnb_node_t *father, rnb_node_t *chield)
 {
     if (grand != NULL) {
         if (grand->left == father)
@@ -21,11 +21,12 @@ void fix_rotation(rnb_node_t *grand,
     }
 }
 
-int check_father_before_rotation(rnb_node_t *father, rnb_node_t *chield, char side)
+int check_father_before_rotation(rnb_node_t *father, rnb_node_t *chield,
+char side)
 {
     if (father != NULL) {
         if (father->left == chield && side == 'L')
-            return (1);            
+            return (1);
         if (father->right == chield && side == 'R')
             return (1);
     }
@@ -44,7 +45,8 @@ void rotate_right(rnb_node_t **root, int number)
     node = get_node(*root, number);
     father = get_father(*root, number);
     grand = get_grandfather(*root, number);
-    if (father == NULL || node == NULL || !check_father_before_rotation(father, node, 'R'))
+    if (father == NULL || node == NULL ||
+    !check_father_before_rotation(father, node, 'R'))
         return;
     tmp = node->left;
     node->left = father;
@@ -66,7 +68,8 @@ void rotate_left(rnb_node_t **root, int number)
     node = get_node(*root, number);
     father = get_father(*root, number);
     grand = get_grandfather(*root, number);
-    if (father == NULL || node == NULL || !check_father_before_rotation(father, node, 'L'))
+    if (father == NULL || node == NULL ||
+    !check_father_before_rotation(father, node, 'L'))
         return;
     tmp = node->right;
     node->right = father;
