@@ -15,7 +15,7 @@ void dump_violation_error(rnb_violation_error_t *error)
 {
     if (error->_type == CONSECUTIVE_RED) {
         printf("CONSECUTIVE_RED\n");
-        printf("SHAPE : %s\n", 
+        printf("SHAPE : %s\n",
         (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
         printf("chield :\n");
         dump_node(error->_chield);
@@ -27,7 +27,7 @@ void dump_violation_error(rnb_violation_error_t *error)
         dump_node(error->_uncle);
     } else if (error->_type == TWO_MUCH_BLACK_NODE) {
         printf("TWO_MUCH_BLACK_NODE\n");
-        printf("SHAPE : %s", 
+        printf("SHAPE : %s",
         (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGLE");
         printf(" :\n");
         dump_node(error->_chield);
@@ -90,7 +90,6 @@ int get_number_of_black_nodes(rnb_node_t *root, int value, rnb_node_t **err)
     if (root->color == BLACK)
         val = 1;
     //printf("VALUE : %d\n", value + val);
-    dump_node(root);
     if (root->left == NULL && root->right == NULL)
         return (value + val);
     if (root->left != NULL)

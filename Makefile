@@ -5,20 +5,24 @@
 ## Build malloc binary.
 ##
 
-SRC	=	rnb_trees/rnb_trees.c \
-		sources/malloc.c
+SRC =   rnb_trees/rnb_trees.c \
+        rnb_trees/violation.c \
+        sources/bit_table_operation.c \
+        sources/free_realloc.c \
+        sources/match_function.c \
+        sources/malloc.c
 
-OBJ	=	$(SRC:.c=.o)
+OBJ	    =   $(SRC:.c=.o)
 
-CFLAGS	=	-Werror -Wextra -W -Wall -Wparentheses -Wsign-compare -Wpointer-sign -Wuninitialized -Wunused-but-set-variable -fPIC -Iincludes/
+CFLAGS	=   -Werror -Wextra -W -Wall -Wparentheses -Wsign-compare -Wpointer-sign -Wuninitialized -Wunused-but-set-variable -fPIC -Iincludes/
 
-NAME	=	libmy_malloc.so
+NAME    =   libmy_malloc.so
 
-CC	=	gcc
+CC	=   gcc
 
-all:	$(NAME)
+all:    $(NAME)
 
-$(NAME):	$(OBJ)
+$(NAME):   $(OBJ)
 		$(CC) -o $(NAME) $(OBJ) -shared
 
 clean:
