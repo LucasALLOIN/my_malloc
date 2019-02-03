@@ -126,7 +126,7 @@ int main()
         insert(&rnb5, 13, NULL);
         insert(&rnb5, 15, NULL);
         insert(&rnb5, 10, NULL);
-        rnb_remove(&rnb5, 19);
+        //rnb_remove(&rnb5, 19);
         //rnb_remove(&rnb5, 8);
         //rnb_remove(&rnb5, 12);
         //rnb_remove(&rnb5, 5);
