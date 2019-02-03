@@ -10,6 +10,12 @@
 #include "rnb_trees.h"
 #include "violation.h"
 
+int func_tests(rnb_node_t *node, int nb)
+{
+    printf("node->number : %d\n", node->number);
+    return (0);
+}
+
 int main()
 {
     rnb_node_t *rnb = NULL;
@@ -145,6 +151,7 @@ int main()
         apply_func_prefix_step(rnb5, &default_print_step, 0);
 
         printf("++++++++++++++++++++++++++++++++++++++\n");
+        match_sup(rnb5, 9, 0, func_tests);
         /*rnb_node_t *rnb6 = NULL;
         int i = 0;
 

@@ -22,6 +22,7 @@ int match(rnb_node_t *node, int *number)
 rnb_node_t *match_func_prefix(rnb_node_t *root, void *data, int (*func)(rnb_node_t *node, void *data))
 {
     rnb_node_t *tmp = NULL;
+
     if (root == NULL)
         return (NULL);
     if (func(root, data)) {
@@ -37,6 +38,30 @@ rnb_node_t *match_func_prefix(rnb_node_t *root, void *data, int (*func)(rnb_node
         if (tmp != NULL)
             return (tmp);
 
+    }
+    return (NULL);
+}
+
+rnb_node_t *match_sup(rnb_node_t *root, int nb_pages, 
+        int nb, int (*func)(rnb_node_t *node, int nb))
+{
+    rnb_node_t *tmp = NULL;
+
+    if (root == NULL)
+        return (NULL);
+    if (nb_pages <= root->number) {
+        if (func(root, nb))
+            return (root);
+    }
+    if (root->left != NULL && root->number >= nb_pages) {
+        tmp = match_sup(root->left, nb_pages, nb, func);
+        if (tmp != NULL)
+            return (tmp);
+    }
+    if (root->right != NULL) {
+        tmp = match_sup(root->right, nb_pages, nb, func);
+        if (tmp != NULL)
+            return (tmp);
     }
     return (NULL);
 }
