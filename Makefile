@@ -6,7 +6,7 @@
 ##
 
 SRC =   rnb_trees/rnb_trees.c \
-        rnb_trees/violation.c \
+        rnb_trees/rnb_violation.c \
         rnb_trees/rnb_alloc.c \
         rnb_trees/rnb_chield.c \
         rnb_trees/rnb_colorflip.c \
@@ -16,6 +16,9 @@ SRC =   rnb_trees/rnb_trees.c \
         rnb_trees/rnb_min_max.c \
         rnb_trees/rnb_rotation.c \
         rnb_trees/rnb_swap.c \
+        rnb_trees/rnb_consecutive_red.c \
+		rnb_trees/rnb_fix_violations.c \
+		rnb_trees/rnb_shape.c \
         sources/bit_table_operation.c \
         sources/free_realloc.c \
         sources/match_function.c \

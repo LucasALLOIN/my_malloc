@@ -75,3 +75,28 @@ void apply_func_prefix_step(rnb_node_t *root, void (*func)
     }
     return;
 }
+
+void dump_violation_error(rnb_violation_error_t *error)
+{
+    if (error->_type == CONSECUTIVE_RED) {
+        printf("CONSECUTIVE_RED\n");
+        printf("SHAPE : %s\n",
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGL");
+        printf("chield :\n");
+        dump_node(error->_chield);
+        printf("father :\n");
+        dump_node(error->_father);
+        printf("grandfather :\n");
+        dump_node(error->_grandfather);
+        printf("uncle :\n");
+        dump_node(error->_uncle);
+    } else if (error->_type == TWO_MUCH_BLACK_NODE) {
+        printf("TWO_MUCH_BLACK_NODE\n");
+        printf("SHAPE : %s",
+        (get_shape(error->_root, error->_chield) == LINE) ? "LINE" : "TRIANGL");
+        printf(" :\n");
+        dump_node(error->_chield);
+    } else if (error->_type == ROOT_RED) {
+        printf("ROOT RED\n");
+    }
+}
